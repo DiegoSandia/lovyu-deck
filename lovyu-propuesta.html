@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propuesta Digital — LovYu × WeblynMX</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #0A0A0A;
+  --off-white: #F5F2EC;
+  --yellow: #F5C200;
+  --orange: #E86318;
+  --magenta: #E8357A;
+  --green-lovyu: #4DB848;
+  --blue: #1E40AF;
+  --purple: #7B3FE4;
+  --wlyn-green: #8BFF61;
+  --wlyn-bg: #0B0B0B;
+  --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--black);
+  color: var(--off-white);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* NOISE OVERLAY */
+body::after {
+  content: '';
+  position: fixed; inset: 0; z-index: 9999;
+  pointer-events: none; opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+}
+
+/* NAV */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 1.2rem 5%;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: background 0.4s, border-color 0.4s;
+}
+.nav.scrolled {
+  background: rgba(10,10,10,0.9);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(245,242,236,0.08);
+}
+.nav-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--off-white);
+  opacity: 0.7;
+  letter-spacing: 0.02em;
+}
+.nav-cta {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: var(--wlyn-green); color: #0B0B0B;
+  padding: 0.5rem 1.2rem; border-radius: 999px;
+  font-size: 0.78rem; font-weight: 700;
+  text-decoration: none;
+  transition: box-shadow 0.3s, transform 0.2s;
+}
+.nav-cta:hover { box-shadow: 0 0 24px rgba(139,255,97,0.4); transform: translateY(-1px); }
+
+/* SECTIONS */
+section { padding: 100px 5%; position: relative; overflow: hidden; }
+@media(max-width:768px) { section { padding: 80px 5%; } }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-end;
+  padding-bottom: 8vh;
+  position: relative;
+}
+
+/* ORBITAL SYSTEM */
+.orbital {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-30%, -52%);
+  width: min(600px, 90vw);
+  aspect-ratio: 1;
+  pointer-events: none;
+}
+@media(max-width:768px) {
+  .orbital { transform: translate(-40%, -55%); opacity: 0.5; }
+}
+.orbital-ring {
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(245,242,236,0.06);
+  animation: spin linear infinite;
+}
+.orbital-ring:nth-child(1) { animation-duration: 18s; }
+.orbital-ring:nth-child(2) { inset: 12%; border-color: rgba(245,194,0,0.12); animation-duration: 24s; animation-direction: reverse; }
+.orbital-ring:nth-child(3) { inset: 28%; border-color: rgba(232,53,122,0.15); animation-duration: 14s; }
+.orbital-ring:nth-child(4) { inset: 44%; border-color: rgba(139,255,97,0.2); animation-duration: 30s; animation-direction: reverse; }
+
+.orbital-dot {
+  position: absolute;
+  border-radius: 50%;
+  top: 0; left: 50%;
+  transform-origin: 0 calc(var(--r) * 1px);
+  animation: spin linear infinite;
+}
+.orbital-dot::after {
+  content: '';
+  position: absolute;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: var(--col);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 20px var(--col), 0 0 40px var(--col);
+}
+
+.d1 { --size:12px; --col:#F5C200; --r:300; animation-duration:18s; }
+.d2 { --size:10px; --col:#E8357A; --r:235; animation-duration:24s; animation-direction:reverse; }
+.d3 { --size:8px; --col:#4DB848; --r:186; animation-duration:14s; }
+.d4 { --size:14px; --col:#7B3FE4; --r:300; animation-duration:18s; animation-delay:-9s; }
+.d5 { --size:9px; --col:#E86318; --r:235; animation-duration:24s; animation-delay:-12s; }
+.d6 { --size:11px; --col:#8BFF61; --r:152; animation-duration:30s; }
+.d7 { --size:7px; --col:#1E40AF; --r:186; animation-duration:14s; animation-delay:-7s; }
+
+.orbital-center {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px; height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245,194,0,0.3), transparent 70%);
+  border: 1px solid rgba(245,194,0,0.3);
+  display: flex; align-items: center; justify-content: center;
+}
+.orbital-center span {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.65rem;
+  font-style: italic;
+  color: var(--yellow);
+  letter-spacing: 0.1em;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.hero-eyebrow {
+  font-size: 0.68rem; font-weight: 500;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--yellow); margin-bottom: 1.5rem;
+  opacity: 0; transform: translateY(20px);
+  animation: reveal 0.8s var(--ease) 0.2s forwards;
+}
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  font-size: clamp(3rem, 10vw, 8rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: var(--off-white);
+  margin-bottom: 1.5rem;
+  opacity: 0; transform: translateY(30px);
+  animation: reveal 0.9s var(--ease) 0.4s forwards;
+}
+.hero-title em { font-style: italic; color: var(--yellow); }
+.hero-sub {
+  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+  color: rgba(245,242,236,0.55);
+  max-width: 560px;
+  line-height: 1.7;
+  margin-bottom: 2.5rem;
+  opacity: 0; transform: translateY(20px);
+  animation: reveal 0.8s var(--ease) 0.6s forwards;
+}
+.hero-actions {
+  display: flex; flex-wrap: wrap; gap: 0.8rem;
+  opacity: 0; transform: translateY(20px);
+  animation: reveal 0.8s var(--ease) 0.8s forwards;
+}
+.hero-scroll {
+  position: absolute; bottom: 2.5rem; right: 5%;
+  font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(245,242,236,0.3);
+  writing-mode: vertical-rl;
+  animation: float 3s ease-in-out infinite;
+}
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+@keyframes reveal {
+  to { opacity: 1; transform: none; }
+}
+
+/* BUTTONS */
+.btn {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.8rem 1.8rem; border-radius: 999px;
+  font-size: 0.88rem; font-weight: 600;
+  text-decoration: none; cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform 0.25s, box-shadow 0.25s, background 0.25s, color 0.25s, border-color 0.25s;
+  white-space: nowrap;
+}
+.btn:hover { transform: translateY(-2px); }
+
+.btn-primary {
+  background: var(--wlyn-green); color: #0B0B0B;
+  border-color: var(--wlyn-green);
+}
+.btn-primary:hover { box-shadow: 0 0 30px rgba(139,255,97,0.35); }
+
+.btn-yellow {
+  background: var(--yellow); color: #0A0A0A;
+  border-color: var(--yellow);
+}
+.btn-yellow:hover { box-shadow: 0 0 30px rgba(245,194,0,0.4); }
+
+.btn-outline {
+  background: transparent;
+  color: var(--off-white);
+  border-color: rgba(245,242,236,0.2);
+}
+.btn-outline:hover { border-color: var(--off-white); }
+
+.btn-magenta {
+  background: var(--magenta); color: #fff;
+  border-color: var(--magenta);
+}
+.btn-magenta:hover { box-shadow: 0 0 30px rgba(232,53,122,0.4); }
+
+.btn-orange {
+  background: var(--orange); color: #fff;
+  border-color: var(--orange);
+}
+.btn-orange:hover { box-shadow: 0 0 30px rgba(232,99,24,0.4); }
+
+.btn-purple {
+  background: var(--purple); color: #fff;
+  border-color: var(--purple);
+}
+.btn-purple:hover { box-shadow: 0 0 30px rgba(123,63,228,0.4); }
+
+.btn-sm { padding: 0.55rem 1.2rem; font-size: 0.8rem; }
+
+/* SECTION LABELS */
+.s-label {
+  font-size: 0.65rem; font-weight: 500;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  margin-bottom: 1rem; display: block;
+}
+.s-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  font-size: clamp(2.2rem, 6vw, 5rem);
+  line-height: 1.0; letter-spacing: -0.02em;
+  margin-bottom: 1.2rem;
+}
+.s-body {
+  font-size: 1rem;
+  color: rgba(245,242,236,0.6);
+  line-height: 1.75;
+  max-width: 640px;
+}
+
+/* DIVIDER */
+.divider {
+  height: 1px;
+  background: rgba(245,242,236,0.06);
+  margin: 0 5%;
+}
+
+/* BRAND READ SECTION */
+.brand-read { background: #0D0D0D; }
+.brand-read .s-label { color: var(--yellow); }
+.brand-read .s-title em { font-style: italic; color: var(--yellow); }
+
+/* OPPORTUNITY SECTION */
+.opportunity { background: var(--black); }
+.opportunity .s-label { color: var(--magenta); }
+.opportunity .s-title em { font-style: italic; color: var(--magenta); }
+
+.opp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1px;
+  background: rgba(245,242,236,0.06);
+  border: 1px solid rgba(245,242,236,0.06);
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 3rem;
+}
+.opp-item {
+  padding: 1.8rem 1.6rem;
+  background: var(--black);
+  transition: background 0.3s;
+}
+.opp-item:hover { background: #111; }
+.opp-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.75rem; font-style: italic;
+  color: var(--magenta); margin-bottom: 0.8rem;
+}
+.opp-text { font-size: 0.95rem; color: var(--off-white); line-height: 1.5; font-weight: 500; }
+
+/* SERVICES SECTION */
+.services-section { background: #0D0D0D; }
+.services-section .s-label { color: var(--orange); }
+.services-section .s-title em { font-style: italic; color: var(--orange); }
+
+.svc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-top: 3rem;
+}
+.svc-card {
+  padding: 2rem;
+  background: #111;
+  border: 1px solid rgba(245,242,236,0.07);
+  border-radius: 20px;
+  cursor: default;
+  transition: border-color 0.3s, transform 0.3s;
+  position: relative; overflow: hidden;
+}
+.svc-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 80% 20%, var(--glow) 0%, transparent 60%);
+  opacity: 0.08;
+  transition: opacity 0.3s;
+}
+.svc-card:hover { transform: translateY(-4px); border-color: var(--accent-col, rgba(245,242,236,0.2)); }
+.svc-card:hover::before { opacity: 0.15; }
+.svc-letter {
+  font-family: 'Playfair Display', serif;
+  font-weight: 900; font-size: 3.5rem;
+  line-height: 1; letter-spacing: -0.04em;
+  margin-bottom: 1.2rem;
+  background: linear-gradient(135deg, var(--glow), rgba(245,242,236,0.3));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.svc-name { font-size: 1.05rem; font-weight: 700; color: var(--off-white); margin-bottom: 0.6rem; }
+.svc-desc { font-size: 0.85rem; color: rgba(245,242,236,0.5); line-height: 1.6; margin-bottom: 1.4rem; }
+.svc-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.svc-tag {
+  font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.3rem 0.7rem; border-radius: 999px;
+  background: rgba(245,242,236,0.05);
+  border: 1px solid rgba(245,242,236,0.1);
+  color: rgba(245,242,236,0.5);
+}
+
+/* RECOMMENDATION */
+.recommendation { background: var(--black); }
+.recommendation .s-label { color: var(--green-lovyu); }
+
+.rec-block {
+  margin-top: 2.5rem;
+  padding: 2.5rem;
+  background: linear-gradient(135deg, rgba(77,184,72,0.06), rgba(245,194,0,0.04));
+  border: 1px solid rgba(77,184,72,0.2);
+  border-radius: 24px;
+  max-width: 700px;
+}
+.rec-block p { font-size: 1.1rem; color: rgba(245,242,236,0.8); line-height: 1.75; }
+.rec-block p strong { color: var(--off-white); font-weight: 700; }
+
+/* PACKAGES */
+.packages-section { background: #060606; }
+.packages-section .s-label { color: var(--wlyn-green); }
+.packages-section .s-title em { font-style: italic; color: var(--wlyn-green); }
+
+.pkg-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  margin-top: 3rem;
+}
+.pkg-card {
+  padding: 2.2rem;
+  border-radius: 24px;
+  border: 1px solid rgba(245,242,236,0.08);
+  background: #0F0F0F;
+  display: flex; flex-direction: column;
+  position: relative; overflow: hidden;
+  transition: transform 0.3s, border-color 0.3s;
+}
+.pkg-card:hover { transform: translateY(-4px); }
+.pkg-card.featured {
+  border-color: rgba(139,255,97,0.3);
+  background: linear-gradient(135deg, #0F0F0F, #111);
+}
+.pkg-card.featured::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: var(--wlyn-green);
+}
+.pkg-badge {
+  font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+  padding: 0.25rem 0.7rem; border-radius: 999px;
+  background: rgba(139,255,97,0.1); color: var(--wlyn-green);
+  border: 1px solid rgba(139,255,97,0.25);
+  display: inline-block; margin-bottom: 1.2rem; width: fit-content;
+}
+.pkg-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.75rem; font-style: italic;
+  color: rgba(245,242,236,0.3); margin-bottom: 0.5rem;
+}
+.pkg-name { font-size: 1.2rem; font-weight: 700; color: var(--off-white); margin-bottom: 0.4rem; }
+.pkg-ideal { font-size: 0.8rem; color: rgba(245,242,236,0.4); margin-bottom: 1.5rem; line-height: 1.5; }
+.pkg-price {
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  font-size: 2.4rem;
+  color: var(--off-white);
+  letter-spacing: -0.03em;
+  margin-bottom: 0.3rem;
+}
+.pkg-price-note { font-size: 0.72rem; color: rgba(245,242,236,0.35); margin-bottom: 1.8rem; }
+.pkg-includes { list-style: none; margin-bottom: 2rem; flex: 1; }
+.pkg-includes li {
+  font-size: 0.83rem; color: rgba(245,242,236,0.6);
+  padding: 0.55rem 0;
+  border-bottom: 1px solid rgba(245,242,236,0.05);
+  display: flex; gap: 0.7rem; align-items: flex-start;
+  line-height: 1.4;
+}
+.pkg-includes li::before {
+  content: '→'; color: var(--wlyn-green);
+  font-size: 0.7rem; flex-shrink: 0; margin-top: 0.15rem;
+}
+.pkg-includes li:last-child { border-bottom: none; }
+
+/* SPECIAL PACKAGE */
+.pkg-card.special {
+  border-color: rgba(245,194,0,0.3);
+  background: linear-gradient(135deg, rgba(245,194,0,0.04), #0F0F0F);
+}
+.pkg-card.special::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: var(--yellow);
+}
+.pkg-special-badge {
+  font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+  padding: 0.25rem 0.7rem; border-radius: 999px;
+  background: rgba(245,194,0,0.1); color: var(--yellow);
+  border: 1px solid rgba(245,194,0,0.25);
+  display: inline-block; margin-bottom: 1.2rem; width: fit-content;
+}
+.pkg-card.special .pkg-includes li::before { color: var(--yellow); }
+
+/* ROADMAP */
+.roadmap { background: #0D0D0D; }
+.roadmap .s-label { color: var(--purple); }
+.roadmap .s-title em { color: var(--purple); font-style: italic; }
+
+.phases {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-top: 3rem;
+}
+.phase-card {
+  padding: 2rem;
+  border-radius: 20px;
+  border: 1px solid rgba(245,242,236,0.07);
+  background: var(--black);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s;
+}
+.phase-card:hover { transform: translateY(-3px); }
+.phase-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: var(--phase-col);
+}
+.phase-n {
+  font-family: 'Playfair Display', serif;
+  font-size: 4rem; font-weight: 900;
+  color: rgba(245,242,236,0.04);
+  position: absolute; top: 0.5rem; right: 1rem;
+  line-height: 1;
+}
+.phase-label {
+  font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--phase-col); margin-bottom: 1rem;
+}
+.phase-name { font-size: 1.1rem; font-weight: 700; color: var(--off-white); margin-bottom: 1.2rem; }
+.phase-items { list-style: none; }
+.phase-items li {
+  font-size: 0.83rem; color: rgba(245,242,236,0.55);
+  padding: 0.45rem 0;
+  border-bottom: 1px solid rgba(245,242,236,0.05);
+  display: flex; gap: 0.6rem;
+}
+.phase-items li::before {
+  content: '·';
+  color: var(--phase-col); flex-shrink: 0;
+}
+.phase-items li:last-child { border-bottom: none; }
+
+/* WHY SECTION */
+.why-section { background: var(--black); }
+.why-section .s-label { color: var(--wlyn-green); }
+
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1px;
+  background: rgba(245,242,236,0.06);
+  border: 1px solid rgba(245,242,236,0.06);
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 3rem;
+}
+.why-item {
+  padding: 1.8rem 1.5rem;
+  background: var(--black);
+  transition: background 0.3s;
+}
+.why-item:hover { background: #0D0D0D; }
+.why-icon {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: rgba(139,255,97,0.08);
+  border: 1px solid rgba(139,255,97,0.15);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+.why-name { font-size: 0.95rem; font-weight: 700; color: var(--off-white); margin-bottom: 0.4rem; }
+.why-desc { font-size: 0.8rem; color: rgba(245,242,236,0.45); line-height: 1.5; }
+
+/* CLOSE SECTION */
+.close-section {
+  background: #060606;
+  text-align: center;
+  display: flex; flex-direction: column; align-items: center;
+}
+.close-section .s-title { font-size: clamp(2.5rem, 7vw, 5.5rem); }
+.close-section .s-title em { color: var(--yellow); font-style: italic; }
+.close-contact {
+  margin-top: 3rem;
+  display: flex; flex-wrap: wrap; gap: 0.8rem;
+  justify-content: center;
+}
+.contact-link {
+  font-size: 0.82rem; color: rgba(245,242,236,0.45);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.contact-link:hover { color: var(--off-white); }
+.contact-sep { color: rgba(245,242,236,0.15); }
+
+.footer-credit {
+  margin-top: 5rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(245,242,236,0.06);
+  font-size: 0.72rem; color: rgba(245,242,236,0.2);
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+
+/* SCROLL REVEAL */
+.reveal {
+  opacity: 0; transform: translateY(32px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+.reveal.in { opacity: 1; transform: none; }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* WA FLOAT */
+.wa-float {
+  position: fixed;
+  bottom: 2rem; right: 1.5rem;
+  z-index: 200;
+  display: flex; align-items: center; gap: 0.6rem;
+  background: #25D366; color: #fff;
+  padding: 0.8rem 1.3rem; border-radius: 999px;
+  font-size: 0.82rem; font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 4px 24px rgba(37,211,102,0.3);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.wa-float:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(37,211,102,0.45); }
+
+/* SECTION DIVIDERS WITH GRADIENTS */
+.gradient-divider {
+  height: 1px;
+  margin: 0;
+}
+
+/* Responsive adjustments */
+@media(max-width:600px) {
+  .pkg-grid, .svc-grid, .phases { grid-template-columns: 1fr; }
+  .hero-title { font-size: clamp(2.8rem, 14vw, 5rem); }
+  .s-title { font-size: clamp(2rem, 9vw, 3.5rem); }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <span class="nav-brand">WeblynMX × LovYu</span>
+  <a class="nav-cta" href="https://wa.me/5215541426190?text=Hola%2C+estoy+viendo+la+propuesta+digital+para+LovYu+y+quiero+saber+m%C3%A1s." target="_blank">
+    Hablemos →
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="orbital" aria-hidden="true">
+    <div class="orbital-ring"></div>
+    <div class="orbital-ring"></div>
+    <div class="orbital-ring"></div>
+    <div class="orbital-ring"></div>
+    <div class="orbital-dot d1"></div>
+    <div class="orbital-dot d2"></div>
+    <div class="orbital-dot d3"></div>
+    <div class="orbital-dot d4"></div>
+    <div class="orbital-dot d5"></div>
+    <div class="orbital-dot d6"></div>
+    <div class="orbital-dot d7"></div>
+    <div class="orbital-center"><span>LovYu</span></div>
+  </div>
+
+  <div class="hero-eyebrow">Propuesta Digital · 2025</div>
+  <h1 class="hero-title">Digital Vision<br>for <em>LovYu.</em></h1>
+  <p class="hero-sub">Una propuesta para convertir la presencia digital de LovYu en una experiencia viva de comunidad, eventos y conexión.</p>
+  <div class="hero-actions">
+    <a class="btn btn-yellow" href="#paquetes">Ver recomendación</a>
+    <a class="btn btn-outline" href="https://wa.me/5215541426190?text=Hola%2C+vi+la+propuesta+de+WeblynMX+para+LovYu+y+quiero+iniciar+la+conversaci%C3%B3n." target="_blank">Iniciar conversación →</a>
+  </div>
+
+  <span class="hero-scroll">scroll</span>
+</section>
+
+<div class="divider"></div>
+
+<!-- BRAND READ -->
+<section class="brand-read" id="marca">
+  <span class="s-label" style="color:var(--yellow);">Lectura de Marca</span>
+  <h2 class="s-title reveal">LovYu no necesita<br>solo <em>una página.</em></h2>
+  <p class="s-body reveal reveal-delay-1">LovYu tiene el potencial de convertirse en un club social moderno alrededor del movimiento, el bienestar y las experiencias reales. La oportunidad no está solo en mostrar eventos, sino en construir una plataforma que haga sentir pertenencia desde el primer contacto.</p>
+
+  <div style="margin-top:2.5rem;" class="reveal reveal-delay-2">
+    <a class="btn btn-yellow" href="https://wa.me/5215541426190?text=Hola%2C+quiero+hablar+sobre+la+visi%C3%B3n+digital+para+LovYu.+%C2%BFPodemos+agendar+una+llamada%3F" target="_blank">Hablar sobre la visión →</a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- OPPORTUNITY -->
+<section class="opportunity" id="oportunidad">
+  <span class="s-label" style="color:var(--magenta);">La Oportunidad</span>
+  <h2 class="s-title reveal">La experiencia digital debe estar al<br><em>nivel de la experiencia real.</em></h2>
+  <p class="s-body reveal reveal-delay-1">LovYu vive en lo presencial. La web tiene que transmitir esa misma energía antes de que alguien llegue al primer evento.</p>
+
+  <div class="opp-grid reveal reveal-delay-2">
+    <div class="opp-item">
+      <div class="opp-num">01</div>
+      <div class="opp-text">Centralizar próximos eventos en un solo lugar</div>
+    </div>
+    <div class="opp-item">
+      <div class="opp-num">02</div>
+      <div class="opp-text">Elevar la percepción premium de la marca</div>
+    </div>
+    <div class="opp-item">
+      <div class="opp-num">03</div>
+      <div class="opp-text">Mejorar registros y RSVPs por evento</div>
+    </div>
+    <div class="opp-item">
+      <div class="opp-num">04</div>
+      <div class="opp-text">Crear sentido de comunidad desde la web</div>
+    </div>
+    <div class="opp-item">
+      <div class="opp-num">05</div>
+      <div class="opp-text">Preparar la arquitectura para membresías futuras</div>
+    </div>
+    <div class="opp-item">
+      <div class="opp-num">06</div>
+      <div class="opp-text">Abrir camino a sponsors, drops y colaboraciones</div>
+    </div>
+  </div>
+
+  <div style="margin-top:2.5rem;" class="reveal reveal-delay-3">
+    <a class="btn btn-magenta" href="https://wa.me/5215541426190?text=Hola%2C+quiero+explorar+las+oportunidades+digitales+para+LovYu+con+WeblynMX." target="_blank">Explorar oportunidades →</a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SERVICES -->
+<section class="services-section" id="servicios">
+  <span class="s-label" style="color:var(--orange);">Servicios para LovYu</span>
+  <h2 class="s-title reveal">Caminos claros para<br><em>crecer en digital.</em></h2>
+  <p class="s-body reveal reveal-delay-1">Cada servicio tiene un propósito. No proponemos todo, proponemos lo que tiene sentido para esta etapa de LovYu.</p>
+
+  <div class="svc-grid">
+    <div class="svc-card reveal reveal-delay-1" style="--glow:#F5C200; --accent-col:rgba(245,194,0,0.3);">
+      <div class="svc-letter" style="--glow:#F5C200;">A</div>
+      <div class="svc-name">Landing Premium</div>
+      <div class="svc-desc">Para validar presencia y comunicar la marca con fuerza. El primer paso bien hecho.</div>
+      <div class="svc-tags">
+        <span class="svc-tag">Conversión</span>
+        <span class="svc-tag">Marca</span>
+        <span class="svc-tag">Mobile-first</span>
+      </div>
+      <div style="margin-top:1.2rem;">
+        <a class="btn btn-sm btn-outline" href="https://wa.me/5215541426190?text=Hola%2C+me+interesa+la+Landing+Premium+para+LovYu.+%C2%BFPueden+darme+m%C3%A1s+detalles%3F" target="_blank">Preguntar sobre esto →</a>
+      </div>
+    </div>
+
+    <div class="svc-card reveal reveal-delay-2" style="--glow:#E86318; --accent-col:rgba(232,99,24,0.3);">
+      <div class="svc-letter" style="--glow:#E86318;">B</div>
+      <div class="svc-name">Event Experience Hub</div>
+      <div class="svc-desc">Para centralizar eventos, RSVPs, comunidad y recaps. El corazón digital de LovYu.</div>
+      <div class="svc-tags">
+        <span class="svc-tag">Eventos</span>
+        <span class="svc-tag">RSVP</span>
+        <span class="svc-tag">Comunidad</span>
+      </div>
+      <div style="margin-top:1.2rem;">
+        <a class="btn btn-sm btn-outline" href="https://wa.me/5215541426190?text=Hola%2C+quiero+saber+m%C3%A1s+sobre+el+Event+Experience+Hub+para+LovYu." target="_blank">Preguntar sobre esto →</a>
+      </div>
+    </div>
+
+    <div class="svc-card reveal reveal-delay-3" style="--glow:#E8357A; --accent-col:rgba(232,53,122,0.3);">
+      <div class="svc-letter" style="--glow:#E8357A;">C</div>
+      <div class="svc-name">Invitaciones Digitales</div>
+      <div class="svc-desc">Para eventos especiales, lanzamientos y momentos de alto impacto. Cada evento merece su experiencia.</div>
+      <div class="svc-tags">
+        <span class="svc-tag">Premium</span>
+        <span class="svc-tag">Exclusivo</span>
+        <span class="svc-tag">Impacto</span>
+      </div>
+      <div style="margin-top:1.2rem;">
+        <a class="btn btn-sm btn-outline" href="https://wa.me/5215541426190?text=Hola%2C+me+interesan+las+Invitaciones+Digitales+premium+para+los+eventos+de+LovYu." target="_blank">Preguntar sobre esto →</a>
+      </div>
+    </div>
+
+    <div class="svc-card reveal reveal-delay-2" style="--glow:#7B3FE4; --accent-col:rgba(123,63,228,0.3);">
+      <div class="svc-letter" style="--glow:#7B3FE4;">D</div>
+      <div class="svc-name">Plataforma Members</div>
+      <div class="svc-desc">Para una futura comunidad privada con acceso, calendario y beneficios exclusivos de club.</div>
+      <div class="svc-tags">
+        <span class="svc-tag">Membresías</span>
+        <span class="svc-tag">Comunidad</span>
+        <span class="svc-tag">Fase futura</span>
+      </div>
+      <div style="margin-top:1.2rem;">
+        <a class="btn btn-sm btn-outline" href="https://wa.me/5215541426190?text=Hola%2C+quiero+explorar+la+Plataforma+de+Members+para+LovYu+en+el+futuro." target="_blank">Preguntar sobre esto →</a>
+      </div>
+    </div>
+
+    <div class="svc-card reveal reveal-delay-3" style="--glow:#4DB848; --accent-col:rgba(77,184,72,0.3);">
+      <div class="svc-letter" style="--glow:#4DB848;">E</div>
+      <div class="svc-name">E-commerce / Drops</div>
+      <div class="svc-desc">Para merch, tickets, productos o colaboraciones. Una capa de monetización que encaja con la marca.</div>
+      <div class="svc-tags">
+        <span class="svc-tag">Merch</span>
+        <span class="svc-tag">Tickets</span>
+        <span class="svc-tag">Fase futura</span>
+      </div>
+      <div style="margin-top:1.2rem;">
+        <a class="btn btn-sm btn-outline" href="https://wa.me/5215541426190?text=Hola%2C+me+interesa+el+e-commerce+y+drops+para+LovYu+en+una+fase+futura." target="_blank">Preguntar sobre esto →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- RECOMMENDATION -->
+<section class="recommendation" id="recomendacion">
+  <span class="s-label" style="color:var(--green-lovyu);">Nuestra Recomendación</span>
+  <h2 class="s-title reveal">Primera fase clara,<br>funcional y <em>escalable.</em></h2>
+
+  <div class="rec-block reveal reveal-delay-1">
+    <p>LovYu debería iniciar con una combinación de <strong>landing premium + sistema de eventos + invitaciones digitales</strong> para activar su presencia sin sobredimensionar el proyecto. Construir la base correcta, luego crecer sobre ella.</p>
+  </div>
+
+  <div style="margin-top:2rem;" class="reveal reveal-delay-2">
+    <a class="btn btn-primary" href="https://wa.me/5215541426190?text=Hola%2C+quiero+saber+m%C3%A1s+sobre+la+recomendaci%C3%B3n+de+WeblynMX+para+la+primera+fase+digital+de+LovYu." target="_blank">Hablar sobre la fase 1 →</a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PACKAGES -->
+<section class="packages-section" id="paquetes">
+  <span class="s-label" style="color:var(--wlyn-green);">Paquetes</span>
+  <h2 class="s-title reveal">Elige el camino<br>que tiene <em>sentido hoy.</em></h2>
+
+  <div class="pkg-grid">
+
+    <!-- PKG 1 -->
+    <div class="pkg-card reveal reveal-delay-1">
+      <span class="pkg-num">01 ·</span>
+      <div class="pkg-name">Landing Premium</div>
+      <div class="pkg-ideal">Para tener presencia sólida, clara y premium desde el día uno.</div>
+      <div class="pkg-price">$8,500</div>
+      <div class="pkg-price-note">MXN · sin IVA · pago 50/50</div>
+      <ul class="pkg-includes">
+        <li>Landing one-page premium</li>
+        <li>Copy base incluido</li>
+        <li>Diseño mobile-first</li>
+        <li>Secciones de marca, concepto, eventos y contacto</li>
+        <li>CTA a WhatsApp / Instagram</li>
+        <li>Deploy en Vercel</li>
+        <li>Optimización responsive</li>
+      </ul>
+      <a class="btn btn-outline" style="width:100%;justify-content:center;" href="https://wa.me/5215541426190?text=Hola%2C+me+interesa+el+Paquete+Landing+Premium+para+LovYu+%28%248%2C500+MXN%29.+%C2%BFPodemos+hablar%3F" target="_blank">Me interesa este →</a>
+    </div>
+
+    <!-- PKG 2 -->
+    <div class="pkg-card reveal reveal-delay-2">
+      <span class="pkg-num">02 ·</span>
+      <div class="pkg-name">Event Experience Hub</div>
+      <div class="pkg-ideal">Para convertir la web en el centro digital de LovYu.</div>
+      <div class="pkg-price">$22,000</div>
+      <div class="pkg-price-note">MXN · sin IVA · pago 50/50</div>
+      <ul class="pkg-includes">
+        <li>Home premium</li>
+        <li>Calendario de próximos eventos</li>
+        <li>Módulos por evento</li>
+        <li>RSVP / waitlist</li>
+        <li>Recaps y galería abstracta</li>
+        <li>Integración WhatsApp</li>
+        <li>Estructura escalable</li>
+        <li>Deploy en Vercel + dirección visual</li>
+      </ul>
+      <a class="btn btn-outline" style="width:100%;justify-content:center;" href="https://wa.me/5215541426190?text=Hola%2C+quiero+saber+m%C3%A1s+sobre+el+Event+Experience+Hub+para+LovYu+%28%2422%2C000+MXN%29." target="_blank">Me interesa este →</a>
+    </div>
+
+    <!-- PKG 3 FEATURED -->
+    <div class="pkg-card featured reveal reveal-delay-3">
+      <div class="pkg-badge">Recomendado</div>
+      <span class="pkg-num">03 ·</span>
+      <div class="pkg-name">LovYu Signature Experience</div>
+      <div class="pkg-ideal">Para construir una experiencia digital tan premium como la experiencia real de LovYu.</div>
+      <div class="pkg-price" style="color:var(--wlyn-green);">$35,000</div>
+      <div class="pkg-price-note">MXN · sin IVA · pago 50/50</div>
+      <ul class="pkg-includes">
+        <li>Dirección digital completa</li>
+        <li>Landing editorial premium</li>
+        <li>Hub de eventos avanzado</li>
+        <li>Sistema visual para eventos</li>
+        <li>Invitaciones digitales base</li>
+        <li>RSVP / waitlist</li>
+        <li>Arquitectura para members area</li>
+        <li>Página de sponsors/partners</li>
+        <li>Microinteracciones premium</li>
+        <li>Deploy en Vercel + futuras integraciones</li>
+      </ul>
+      <a class="btn btn-primary" style="width:100%;justify-content:center;" href="https://wa.me/5215541426190?text=Hola%2C+me+interesa+el+paquete+LovYu+Signature+Experience+%28%2435%2C000+MXN%29.+%C2%BFPodemos+hablar+esta+semana%3F" target="_blank">Quiero este →</a>
+    </div>
+
+    <!-- PKG ESPECIAL -->
+    <div class="pkg-card special reveal reveal-delay-1">
+      <div class="pkg-special-badge">Paquete Especial</div>
+      <span class="pkg-num">· · ·</span>
+      <div class="pkg-name">LovYu Launch Pack</div>
+      <div class="pkg-ideal">Para iniciar rápido con presencia fuerte sin construir todo el ecosistema desde el día uno.</div>
+      <div class="pkg-price" style="color:var(--yellow);">$8,500</div>
+      <div class="pkg-price-note">MXN · sin IVA · pago 50/50</div>
+      <ul class="pkg-includes">
+        <li>Landing premium inicial</li>
+        <li>1 invitación digital para evento</li>
+        <li>CTA a RSVP / WhatsApp</li>
+        <li>Diseño mobile-first</li>
+        <li>Deploy en Vercel</li>
+        <li>Base visual para seguir creciendo</li>
+      </ul>
+      <div style="margin-bottom:1rem; font-size:0.8rem; color:rgba(245,242,236,0.45); line-height:1.6;">Creamos este paquete para que LovYu active su presencia digital sin sobredimensionar el proyecto desde el inicio.</div>
+      <a class="btn btn-yellow" style="width:100%;justify-content:center;" href="https://wa.me/5215541426190?text=Hola%2C+quiero+empezar+con+el+LovYu+Launch+Pack.+%C2%BFPodemos+arrancar+esta+semana%3F" target="_blank">Empezar con este →</a>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ROADMAP -->
+<section class="roadmap" id="roadmap">
+  <span class="s-label" style="color:var(--purple);">Roadmap</span>
+  <h2 class="s-title reveal">Tres fases.<br><em>Un ecosistema.</em></h2>
+  <p class="s-body reveal reveal-delay-1">No es necesario construirlo todo hoy. La idea es arrancar con una base sólida y crecer sobre algo real.</p>
+
+  <div class="phases">
+    <div class="phase-card reveal reveal-delay-1" style="--phase-col:#F5C200;">
+      <div class="phase-n">1</div>
+      <div class="phase-label">Fase 1 · Ahora</div>
+      <div class="phase-name">Presencia + Eventos</div>
+      <ul class="phase-items">
+        <li>Landing premium</li>
+        <li>Invitación digital</li>
+        <li>RSVP básico</li>
+        <li>CTA a WhatsApp / Instagram</li>
+      </ul>
+      <div style="margin-top:1.4rem;">
+        <a class="btn btn-sm" style="background:rgba(245,194,0,0.1);color:var(--yellow);border:1px solid rgba(245,194,0,0.3);" href="https://wa.me/5215541426190?text=Hola%2C+quiero+hablar+sobre+la+Fase+1+del+roadmap+digital+para+LovYu." target="_blank">Iniciar Fase 1 →</a>
+      </div>
+    </div>
+
+    <div class="phase-card reveal reveal-delay-2" style="--phase-col:#E8357A;">
+      <div class="phase-n">2</div>
+      <div class="phase-label">Fase 2 · Próximo trimestre</div>
+      <div class="phase-name">Hub + Comunidad</div>
+      <ul class="phase-items">
+        <li>Event Hub completo</li>
+        <li>Recaps visuales</li>
+        <li>Waitlist por evento</li>
+        <li>Galería abstracta</li>
+      </ul>
+      <div style="margin-top:1.4rem;">
+        <a class="btn btn-sm" style="background:rgba(232,53,122,0.08);color:var(--magenta);border:1px solid rgba(232,53,122,0.25);" href="https://wa.me/5215541426190?text=Hola%2C+quiero+planear+la+Fase+2+del+roadmap+digital+de+LovYu." target="_blank">Planear Fase 2 →</a>
+      </div>
+    </div>
+
+    <div class="phase-card reveal reveal-delay-3" style="--phase-col:#7B3FE4;">
+      <div class="phase-n">3</div>
+      <div class="phase-label">Fase 3 · Visión a largo plazo</div>
+      <div class="phase-name">Plataforma de Club</div>
+      <ul class="phase-items">
+        <li>Members area + acceso</li>
+        <li>Drops + merch digital</li>
+        <li>Sponsors + partners</li>
+        <li>Automatizaciones</li>
+      </ul>
+      <div style="margin-top:1.4rem;">
+        <a class="btn btn-sm" style="background:rgba(123,63,228,0.08);color:var(--purple);border:1px solid rgba(123,63,228,0.25);" href="https://wa.me/5215541426190?text=Hola%2C+quiero+hablar+sobre+la+visi%C3%B3n+a+largo+plazo+de+la+plataforma+de+LovYu." target="_blank">Ver visión completa →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- WHY -->
+<section class="why-section" id="weblynmx">
+  <span class="s-label" style="color:var(--wlyn-green);">Por qué WeblynMX</span>
+  <h2 class="s-title reveal">No hacemos páginas<br><em>bonitas.</em></h2>
+  <p class="s-body reveal reveal-delay-1">Diseñamos presencia digital con intención: claridad, percepción premium y estructura para crecer.</p>
+
+  <div class="why-grid reveal reveal-delay-2">
+    <div class="why-item">
+      <div class="why-icon">→</div>
+      <div class="why-name">Diseño estratégico</div>
+      <div class="why-desc">Cada decisión visual tiene un objetivo de negocio detrás.</div>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">◻</div>
+      <div class="why-name">Mobile-first</div>
+      <div class="why-desc">70% de tu audiencia llega desde el celular. Diseñamos ahí primero.</div>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">◈</div>
+      <div class="why-name">Experiencia premium</div>
+      <div class="why-desc">La web debe transmitir lo mismo que sientes en un evento de LovYu.</div>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">▲</div>
+      <div class="why-name">Conversión</div>
+      <div class="why-desc">Registro, RSVP, WhatsApp. La web trabaja para atraer y retener.</div>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">⊕</div>
+      <div class="why-name">Estructura escalable</div>
+      <div class="why-desc">Lo que construimos hoy aguanta las fases 2 y 3 sin rehacer todo.</div>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">◎</div>
+      <div class="why-name">Pensamiento de marca</div>
+      <div class="why-desc">No entregamos código. Entregamos percepción y posicionamiento.</div>
+    </div>
+  </div>
+
+  <div style="margin-top:2.5rem;" class="reveal reveal-delay-3">
+    <a class="btn btn-primary" href="https://wa.me/5215541426190?text=Hola%2C+quiero+saber+m%C3%A1s+sobre+WeblynMX+y+c%C3%B3mo+pueden+ayudar+a+LovYu." target="_blank">Conocer más sobre WeblynMX →</a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CLOSE -->
+<section class="close-section" id="cierre">
+  <span class="s-label" style="color:var(--yellow);">Siguiente paso</span>
+  <h2 class="s-title reveal">LovYu ya tiene<br>la <em>energía.</em></h2>
+  <p class="s-body reveal reveal-delay-1" style="text-align:center;margin:0 auto 2.5rem;">Ahora necesita una experiencia digital que la haga crecer.</p>
+
+  <div class="reveal reveal-delay-2">
+    <a class="btn btn-yellow" style="font-size:1rem;padding:1rem 2.5rem;" href="https://wa.me/5215541426190?text=Hola%2C+quiero+empezar+con+el+LovYu+Launch+Pack.+%C2%BFPodemos+arrancar+esta+semana%3F" target="_blank">Empezar con LovYu Launch Pack →</a>
+  </div>
+
+  <div class="close-contact reveal reveal-delay-3">
+    <a class="contact-link" href="https://wa.me/5215541426190" target="_blank">WhatsApp: 55 4142 6190</a>
+    <span class="contact-sep">·</span>
+    <a class="contact-link" href="https://instagram.com/weblynmx" target="_blank">@WebLynMx</a>
+    <span class="contact-sep">·</span>
+    <a class="contact-link" href="mailto:WebLynMx@gmail.com">WebLynMx@gmail.com</a>
+  </div>
+
+  <div class="footer-credit">"Comenzamos con una conversación." — WeblynMX · CDMX 2025</div>
+</section>
+
+<!-- FLOATING WA BUTTON -->
+<a class="wa-float" href="https://wa.me/5215541426190?text=Hola%2C+estoy+viendo+la+propuesta+digital+para+LovYu.+%C2%BFPodemos+hablar%3F" target="_blank" id="waFloat">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  Escribir
+</a>
+
+<script>
+// NAV scroll
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+}, { passive: true });
+
+// SCROLL REVEAL
+const revealEls = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+revealEls.forEach(el => observer.observe(el));
+
+// WA FLOAT — hide when near footer
+const waFloat = document.getElementById('waFloat');
+const closeSection = document.getElementById('cierre');
+const footerObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    waFloat.style.opacity = e.isIntersecting ? '0' : '1';
+    waFloat.style.pointerEvents = e.isIntersecting ? 'none' : 'auto';
+  });
+}, { threshold: 0.3 });
+footerObs.observe(closeSection);
+waFloat.style.transition = 'opacity 0.3s';
+</script>
+</body>
+</html>
